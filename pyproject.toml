@@ -23,7 +23,7 @@ classifiers = [
 dependencies = [
     "PyQt6>=6.9.1",
     "libsass>=0.23.0",
-    "rune-lib>=0.0.2",
+    "rune-lib>=0.0.3",
 ]
 
 [project.urls]

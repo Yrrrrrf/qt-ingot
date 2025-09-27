@@ -107,7 +107,7 @@ dependencies = [
 requires-dist = [
     { name = "libsass", specifier = ">=0.23.0" },
     { name = "pyqt6", specifier = ">=6.9.1" },
-    { name = "rune-lib", specifier = ">=0.0.2" },
+    { name = "rune-lib", specifier = ">=0.0.3" },
 ]
 
 [[package]]
@@ -125,12 +125,12 @@ wheels = [
 
 [[package]]
 name = "rune-lib"
-version = "0.0.2"
+version = "0.0.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "rich" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4e/e3/191c1ae351496b0d2619e7cd78a7d3a81a54b0b1af3f98c1c141e15bf573/rune_lib-0.0.2.tar.gz", hash = "sha256:11814a58e340bfd51f6657dd984de5abeb4c2e42a7dbf5f76f947be5e4203d5d", size = 24610, upload-time = "2025-09-27T00:01:30.165Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2f/05/254b3a224e3a3734a793f02137ceb4adad57451150370ba8baaa4497799b/rune_lib-0.0.3.tar.gz", hash = "sha256:c1cabcd0e2fe9a018c3e8938cd73d55274c380b4f398c182f6dc40d873082bdf", size = 25240, upload-time = "2025-09-27T04:35:52.209Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/82/8e/0bac17d82ee32af9f8cb540717d4f72370d561b90e7a0b9f67caaa184cdd/rune_lib-0.0.2-py3-none-any.whl", hash = "sha256:bc1569d124ce92c2b5a32d5b63b0c1aafce89f7f1c2d3afadf78604f8b590a94", size = 9215, upload-time = "2025-09-27T00:01:28.905Z" },
+    { url = "https://files.pythonhosted.org/packages/dc/7c/0eceb113bbe9f0706e7ddd836ccb60ddf56f7417a55ffb09d1e0e8c91295/rune_lib-0.0.3-py3-none-any.whl", hash = "sha256:7d1dbf97b1252ec96d64a49531eebf0afa133f36014eb791f314272a622e0426", size = 9538, upload-time = "2025-09-27T04:35:51.074Z" },
 ]

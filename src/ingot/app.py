@@ -54,12 +54,26 @@ class IngotApp(QMainWindow):
         if config:
             self.setWindowTitle(config.get("title", "Ingot Application"))
             if "icon" in config:
-                # Assuming rune-lib is available to resolve the icon path
                 try:
-                    from rune import rune
-                    icon_path = rune.img(config["icon"])
+                    # 1. Correct the import: We need 'assets', not 'rune'.
+                    from rune import assets
+                    import logging # It's good practice to use logging for warnings
+
+                    # 2. Get the icon path string from the config
+                    icon_path_str = config["icon"] # e.g., "img.template"
+                    path_parts = icon_path_str.split('.')
+
+                    # 3. Resolve the path correctly by traversing the assets object
+                    current_asset = assets
+                    for part in path_parts:
+                        current_asset = getattr(current_asset, part)
+
+                    icon_path = current_asset # This is now the final Path object
                     self.setWindowIcon(QIcon(str(icon_path)))
+
                 except ImportError:
-                    print("Warning: rune-lib not found. Cannot load icon from path.")
-                except FileNotFoundError:
-                    print(f"Warning: Icon '{config['icon']}' not found.")
+                    # This would only happen if rune-lib is not installed at all
+                    logging.warning("rune-lib is not installed. Cannot load the application icon.")
+                except (AttributeError, FileNotFoundError):
+                    # AttributeError is raised if 'img' or 'template' doesn't exist
+                    logging.warning(f"Icon asset path '{config['icon']}' could not be found.")
