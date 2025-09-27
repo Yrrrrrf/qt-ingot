@@ -3,8 +3,8 @@ from PyQt6.QtWidgets import QApplication, QLabel
 
 from rune import AssetNotFoundError, assets
 
-from qt_ingot.app import IngotApp
-from qt_ingot.views.base import BaseView
+from ingot.app import IngotApp
+from ingot.views.base import BaseView
 
 
 # --- Step 1: Define the application's custom view ---

@@ -32,7 +32,7 @@ Repository = "https://github.com/Yrrrrrf/qt-ingot"
 
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/qt_ingot"]
+packages = ["src/ingot"]
 
 [build-system]
 requires = ["hatchling"]

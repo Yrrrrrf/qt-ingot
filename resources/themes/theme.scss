@@ -27,7 +27,7 @@ QTabBar::tab:selected {
     color: $foreground-light;
 }
 
-QTabBar::tab:!selected:hover {
+QTabBar::tab:not(:selected):hover {
     background: $primary-light;
     color: $foreground;
 }
