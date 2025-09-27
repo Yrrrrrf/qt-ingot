@@ -6,44 +6,44 @@
 @import "_colors";
 
 QMainWindow {
-    background-color: $background;
-    color: $foreground;
+  background-color: $background;
+  color: $foreground;
 }
 
 QTabWidget::pane {
-    border-top: 2px solid $primary;
+  border-top: 2px solid $primary;
 }
 
 QTabBar::tab {
-    background: $background-light;
-    color: $foreground-dark;
-    padding: 8px 12px;
-    border: 1px solid $border;
-    border-bottom: none;
+  background: $background-light;
+  color: $foreground-dark;
+  padding: 8px 12px;
+  border: 1px solid $border;
+  border-bottom: none;
 }
 
 QTabBar::tab:selected {
-    background: $primary;
-    color: $foreground-light;
+  background: $primary;
+  color: $foreground-light;
 }
 
 QTabBar::tab:not(:selected):hover {
-    background: $primary-light;
-    color: $foreground;
+  background: $primary-light;
+  color: $foreground;
 }
 
 QPushButton {
-    background-color: $primary;
-    color: $foreground-light;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
+  background-color: $primary;
+  color: $foreground-light;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
 }
 
 QPushButton:hover {
-    background-color: $primary-light;
+  background-color: $primary-light;
 }
 
 QPushButton:pressed {
-    background-color: $primary-dark;
+  background-color: $primary-dark;
 }

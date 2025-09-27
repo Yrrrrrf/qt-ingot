@@ -17,25 +17,51 @@ class MyTestView(BaseView):
         label.setStyleSheet("font-size: 20px;")
         self.layout().addWidget(label)
 
-# --- Step 2: The Main Application Logic ---
+# --- Step 2: Define the Application's Configuration ---
+# Instead of setting the title and icon manually, we define a simple dictionary.
+# `qt-ingot` will use this to configure the application window.
+# The icon path is a `rune-lib` friendly path, which `IngotApp` will resolve.
+APP_CONFIG = {
+    "title": "My Awesome App",
+    "version": "1.0.0",
+    "author": "My Name",
+    "icon": "img.template"  # A rune-lib friendly path
+}
+
+
+# --- Step 3: Define the Menu Structure ---
+# A dictionary is used to define the entire menu bar.
+# The `MenuBarManager` will parse this and build the `QMenuBar`.
+# Functions can be connected directly to menu items.
+MENU_CONFIG = {
+    "File": [
+        {"name": "Exit", "shortcut": "Esc", "function": sys.exit}
+    ],
+    "Help": [
+        {"name": "About", "function": lambda: print("About This App!")}
+    ]
+}
+
+
+# --- Step 4: The Main Application Logic ---
 def main():
     app = QApplication(sys.argv)
 
     # --- Use `qt-ingot` to build the window ---
-    # The IngotApp will now automatically handle theme scaffolding and loading on its own.
-    # We no longer need to find and apply a theme manually.
-    main_window = IngotApp(view_factory=MyTestView)
-    main_window.setWindowTitle("My Qt Ingot Tester App")
+    # We pass our view and the configuration dictionary to the IngotApp.
+    # It handles the rest, including setting the title and icon.
+    main_window = IngotApp(view_factory=MyTestView, config=APP_CONFIG)
 
-    # --- Use `rune` to find other assets like icons ---
-    # This part is still manual for now, which is perfectly fine.
-    try:
-        app_icon = assets.img.template
-        main_window.set_window_icon_from_path(app_icon)
-    except AssetNotFoundError as e:
-        # If the icon isn't found, we just print a message.
-        # The app will run with the system's default icon.
-        print(f"INFO: Could not find app icon, using default. ({e})")
+    # --- Set the Menu Bar ---
+    # With the menu defined in a dictionary, we can set it with a single call.
+    main_window.set_menu(MENU_CONFIG)
+
+    # --- Add a Side Panel ---
+    # The layout system allows adding widgets to the side.
+    # Here, we add a simple label as a left-side panel.
+    side_panel = QLabel("Side Panel")
+    side_panel.setStyleSheet("background-color: #f0f0f0; padding: 10px;")
+    main_window.set_side_panel(side_panel, position='left')
 
     main_window.show()
     sys.exit(app.exec())

@@ -1,7 +1,8 @@
 import sass
 from pathlib import Path
 import importlib.resources as pkg_resources
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget, QMenuBar, QMenu
+from PyQt6.QtGui import QAction
 import shutil
 import logging
 
@@ -10,10 +11,12 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 class ThemeManager:
     """Manages the loading, application, and scaffolding of SASS stylesheets."""
-    def __init__(self, target_widget: QWidget, user_themes_path: str | Path = "resources/themes"):
+    def __init__(self, target_widget: QWidget, menu_bar: QMenuBar, user_themes_path: str | Path = "resources/themes"):
         self._target = target_widget
+        self._menu_bar = menu_bar
         self._user_themes_path = Path(user_themes_path)
         self._scaffold_user_theme()
+        self._discover_and_add_themes_to_menu()
 
     def _scaffold_user_theme(self):
         """
@@ -43,21 +46,46 @@ class ThemeManager:
         except Exception as e:
             logging.error(f"Failed to create default theme: {e}")
 
-    def apply_theme(self, scss_path: str | Path):
+    def _discover_and_add_themes_to_menu(self):
+        """Discovers .scss themes and adds them to the 'View' menu."""
+        view_menu = self._menu_bar.findChild(QMenu, "View")
+        if not view_menu:
+            view_menu = QMenu("View", self._menu_bar)
+            self._menu_bar.addMenu(view_menu)
+
+        theme_menu = QMenu("Themes", view_menu)
+        view_menu.addMenu(theme_menu)
+
+        theme_files = list(self._user_themes_path.glob("*.scss"))
+        if not theme_files:
+            action = QAction("No Themes Found", theme_menu)
+            action.setEnabled(False)
+            theme_menu.addAction(action)
+            return
+
+        for theme_path in theme_files:
+            theme_name = theme_path.stem
+            action = QAction(theme_name, theme_menu)
+            action.triggered.connect(lambda checked, name=theme_name: self.apply_theme(name))
+            theme_menu.addAction(action)
+
+    def apply_theme(self, theme_name: str):
         """Compiles a SASS file and applies it to the target widget."""
+        scss_path = self._user_themes_path / f"{theme_name}.scss"
+        if not scss_path.exists():
+            logging.warning(f"Theme '{theme_name}' not found. Applying the built-in default theme as a fallback.")
+            self.apply_default_theme()
+            return
+
         try:
-            scss_path = Path(scss_path)
             # Define include paths for @import rules, like for _colors.scss
             include_paths = [str(scss_path.parent)]
             
             with open(scss_path, "r") as f:
                 compiled_css = sass.compile(string=f.read(), include_paths=include_paths)
                 self._target.setStyleSheet(compiled_css)
-        except FileNotFoundError:
-            logging.warning(f"Theme '{scss_path.name}' not found. Applying the built-in default theme as a fallback.")
-            self.apply_default_theme()
         except Exception as e:
-            logging.error(f"Error applying theme {scss_path}: {e}")
+            logging.error(f"Error applying theme {theme_name}: {e}")
 
     def apply_default_theme(self):
         """Applies the default theme bundled with qt-ingot."""
