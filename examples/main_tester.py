@@ -30,15 +30,14 @@ APP_CONFIG = {
 
 
 # --- Step 3: Define the Menu Structure ---
-# A dictionary is used to define the entire menu bar.
-# The `MenuBarManager` will parse this and build the `QMenuBar`.
-# Functions can be connected directly to menu items.
+# MODIFIED to include a unique `id` for each action.
+# This ID is used for registration in the ActionManager.
 MENU_CONFIG = {
     "File": [
-        {"name": "Exit", "shortcut": "Esc", "function": sys.exit}
+        {"id": "file.exit", "name": "Exit", "shortcut": "Esc", "function": sys.exit}
     ],
     "Help": [
-        {"name": "About", "function": lambda: print("About This App!")}
+        {"id": "help.about", "name": "About", "function": lambda: print("About This App!")}
     ]
 }
 
@@ -60,7 +59,7 @@ def main():
     # The layout system allows adding widgets to the side.
     # Here, we add a simple label as a left-side panel.
     side_panel = QLabel("Side Panel")
-    side_panel.setStyleSheet("background-color: #f0f0f0; padding: 10px;")
+    side_panel.setObjectName("sidePanel")
     main_window.set_side_panel(side_panel, position='left')
 
     main_window.show()
