@@ -8,3 +8,10 @@ wheels/
 
 # Virtual environments
 .venv
+
+# uv related
+
+.ruff_cache
+
+# some
+.env
