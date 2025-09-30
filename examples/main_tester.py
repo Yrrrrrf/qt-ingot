@@ -32,14 +32,7 @@ APP_CONFIG = {
 # --- Step 3: Define the Menu Structure ---
 # MODIFIED to include a unique `id` for each action.
 # This ID is used for registration in the ActionManager.
-MENU_CONFIG = {
-    "File": [
-        {"id": "file.exit", "name": "Exit", "shortcut": "Esc", "function": sys.exit}
-    ],
-    "Help": [
-        {"id": "help.about", "name": "About", "function": lambda: print("About This App!")}
-    ]
-}
+
 
 
 # --- Step 4: The Main Application Logic ---
@@ -50,6 +43,17 @@ def main():
     # We pass our view and the configuration dictionary to the IngotApp.
     # It handles the rest, including setting the title and icon.
     main_window = IngotApp(view_factory=MyTestView, config=APP_CONFIG)
+
+    MENU_CONFIG = {
+        "File": [
+            {"id": "file.new_tab", "name": "New Tab", "shortcut": "T", "function": main_window.workspace.new_tab},
+            {"id": "file.close_tab", "name": "Close Tab", "shortcut": "W", "function": lambda: main_window.workspace.close_tab(main_window.workspace.currentIndex())},
+            {"id": "file.exit", "name": "Exit", "shortcut": "Esc", "function": sys.exit}
+        ],
+        "Help": [
+            {"id": "help.about", "name": "About", "function": lambda: print("About This App!")}
+        ]
+    }
 
     # --- Set the Menu Bar ---
     # With the menu defined in a dictionary, we can set it with a single call.
