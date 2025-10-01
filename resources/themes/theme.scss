@@ -56,21 +56,26 @@ QMenu::separator {
 }
 
 /* Side Panel */
-/* This style targets any QFrame with the object name "sidePanel" */
-QFrame#sidePanel {
+/* This style now targets any QWidget with the specific object name */
+QWidget#ingotSidePanel_left {
   background-color: $background-light;
   border-right: 1px solid $border;
-  /* Assumes a left-side panel */
+}
+
+QWidget#ingotSidePanel_right {
+  background-color: $background-light;
+  border-left: 1px solid $border;
 }
 
 /* Tab Workspace */
-QTabWidget::pane {
+/* Change generic QTabWidget to a specific ID for precision */
+QTabWidget#ingotWorkspace::pane {
   border-top: 2px solid $primary;
-  /* Remove default border to avoid double lines with the side panel */
-  border-left: none;
+  border-left: none; /* Remove default border to avoid double lines with the side panel */
 }
 
-QTabBar::tab {
+/* Target the specific tab bar */
+QTabBar#ingotWorkspaceTabBar::tab {
   background: $background-light;
   color: $foreground-dark;
   padding: 8px 12px;
@@ -78,12 +83,12 @@ QTabBar::tab {
   border-bottom: none;
 }
 
-QTabBar::tab:selected {
+QTabBar#ingotWorkspaceTabBar::tab:selected {
   background: $primary;
   color: $foreground-light;
 }
 
-QTabBar::tab:not(:selected):hover {
+QTabBar#ingotWorkspaceTabBar::tab:not(:selected):hover {
   background: $primary-light;
   color: $foreground;
 }

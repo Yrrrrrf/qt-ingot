@@ -29,6 +29,8 @@ class IngotApp(QMainWindow):
         # Initialize the ActionManager and Display
         self.action_manager = ActionManager(self)
         self.display = Display()
+        # NEW: Assign a consistent name to the main display frame
+        self.display.setObjectName("ingotDisplay")
 
         # Create the menu bar. It starts empty.
         self.setMenuBar(QMenuBar(self))
@@ -38,6 +40,9 @@ class IngotApp(QMainWindow):
         # --- MODIFICATION END ---
 
         self.workspace = WorkspaceManager(view_factory=view_factory)
+        # NEW: Assign consistent names to the workspace and its tab bar
+        self.workspace.setObjectName("ingotWorkspace")
+        self.workspace.tabBar().setObjectName("ingotWorkspaceTabBar")
 
         # Set up the main layout
         self.display.set_main_widget(self.workspace)
@@ -63,6 +68,9 @@ class IngotApp(QMainWindow):
 
     def set_side_panel(self, widget, position: str = 'left'):
         """Adds a widget to the side panel."""
+        # NEW: Automatically set the object name for theming
+        # This makes styling specific to 'left' or 'right' panels possible
+        widget.setObjectName(f"ingotSidePanel_{position}")
         self.display.set_side_panel(widget, position)
 
     def _load_configuration(self, config: dict | None):
