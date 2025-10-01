@@ -11,6 +11,9 @@ from .views.base import BaseView
 # Replace the MenuBarManager with the new ActionManager
 from .actions.manager import ActionManager
 # --- MODIFICATION END ---
+# --- NEW IMPORT ---
+from .workspaces.canvas import CanvasWorkspace
+# --- END NEW IMPORT ---
 from .display import Display
 
 
@@ -20,7 +23,7 @@ class IngotApp(QMainWindow):
     It integrates a workspace, theming, and basic window management.
     """
 
-    def __init__(self, view_config: dict, config: dict | None = None):
+    def __init__(self, view_config: dict, config: dict | None = None, workspace_type: str = "standard"):
         super().__init__()
         self.resize(1080, 720)
         self._load_configuration(config)
@@ -39,10 +42,21 @@ class IngotApp(QMainWindow):
         self.theme_manager = ThemeManager(self, self.action_manager)
         # --- MODIFICATION END ---
 
-        self.workspace = WorkspaceManager(view_config=view_config)
-        # NEW: Assign consistent names to the workspace and its tab bar
+        # New: Workspace selection logic based on workspace_type
+        if workspace_type == "canvas":
+            # CanvasWorkspace expects the view_config dictionary
+            canvas_config = config.get('canvas', {}) if config else {} # Extract canvas-specific config if present
+            self.workspace = CanvasWorkspace(view_config=view_config, canvas_config=canvas_config)
+        elif workspace_type == "standard":
+            # Standard workspace still expects the view_config dictionary
+            self.workspace = WorkspaceManager(view_config=view_config)
+        else:
+            raise ValueError(f"Unknown workspace_type: '{workspace_type}'. Valid options: 'standard', 'canvas'")
+
+        # Ensure consistent naming for theming, regardless of workspace type chosen
         self.workspace.setObjectName("ingotWorkspace")
-        self.workspace.tabBar().setObjectName("ingotWorkspaceTabBar")
+        if hasattr(self.workspace, 'tabBar'): # Check if the workspace has a tabBar method (standard and canvas do)
+            self.workspace.tabBar().setObjectName("ingotWorkspaceTabBar")
 
         # Set up the main layout
         self.display.set_main_widget(self.workspace)
