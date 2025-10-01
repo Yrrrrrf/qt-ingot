@@ -20,7 +20,7 @@ class IngotApp(QMainWindow):
     It integrates a workspace, theming, and basic window management.
     """
 
-    def __init__(self, view_factory: type[BaseView], config: dict | None = None):
+    def __init__(self, view_config: dict, config: dict | None = None):
         super().__init__()
         self.resize(1080, 720)
         self._load_configuration(config)
@@ -39,7 +39,7 @@ class IngotApp(QMainWindow):
         self.theme_manager = ThemeManager(self, self.action_manager)
         # --- MODIFICATION END ---
 
-        self.workspace = WorkspaceManager(view_factory=view_factory)
+        self.workspace = WorkspaceManager(view_config=view_config)
         # NEW: Assign consistent names to the workspace and its tab bar
         self.workspace.setObjectName("ingotWorkspace")
         self.workspace.tabBar().setObjectName("ingotWorkspaceTabBar")

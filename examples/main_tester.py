@@ -42,7 +42,8 @@ def main():
     # --- Use `qt-ingot` to build the window ---
     # We pass our view and the configuration dictionary to the IngotApp.
     # It handles the rest, including setting the title and icon.
-    main_window = IngotApp(view_factory=MyTestView, config=APP_CONFIG)
+    # For backward compatibility, we pass a view_factory
+    main_window = IngotApp({"view_factory": MyTestView}, config=APP_CONFIG)
 
     MENU_CONFIG = {
         "File": [
