@@ -1,4 +1,4 @@
-# `v0.0.6`: Advanced DX and Interactivity
+# `v0.0.{some}`: Advanced DX and Interactivity
 
 **Goal:** Implement a VS Code-style sidebar system and add tools that make the framework easier for other developers to use.
 
